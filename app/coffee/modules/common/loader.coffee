@@ -66,7 +66,8 @@ Loader = ($rootscope) ->
                 if diff < config.minTime
                     timeoutValue = config.minTime - diff
 
-            timeout(timeoutValue, -> $rootscope.$broadcast("loader:end"))
+            timeout timeoutValue, ->
+                $rootscope.$broadcast("loader:end")
 
         startLoadTime = 0
         requestCount = 0
@@ -103,6 +104,7 @@ Loader = ($rootscope) ->
 
         onEnd: (fn) ->
             $rootscope.$on("loader:end", fn)
+            window.prerenderReady = true # Needed by Prerender Server
 
         logRequest: () ->
             requestCount++
